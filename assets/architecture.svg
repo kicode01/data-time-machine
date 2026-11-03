@@ -1,103 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440" width="100%" height="100%">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0a0d14"/>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070d19"/>
       <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#059669"/>
     </linearGradient>
   </defs>
 
   <style>
-    .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f8fafc; }
+    .headline { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #f8fafc; }
+    .subtext { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; fill: #94a3b8; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; }
-    .tag { font-size: 10px; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    .hash { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 10px; fill: #38bdf8; }
+    .badge { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 10px; font-weight: 700; }
   </style>
 
-  <rect width="860" height="420" rx="14" fill="url(#bg)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect width="860" height="440" rx="16" fill="url(#bg2)" stroke="#1e293b" stroke-width="1.5"/>
 
-  <!-- Window controls -->
-  <circle cx="36" cy="36" r="6" fill="#ef4444" opacity="0.8"/>
-  <circle cx="54" cy="36" r="6" fill="#f59e0b" opacity="0.8"/>
-  <circle cx="72" cy="36" r="6" fill="#10b981" opacity="0.8"/>
-  <text x="100" y="41" class="mono" fill="#64748b">data-time-machine // O(log N) Merkle Tree Parity Bisection</text>
+  <!-- Diagram Title -->
+  <text x="40" y="44" class="headline">Replacing the Database Engine Mid-Flight (Zero Downtime)</text>
+  <text x="40" y="64" class="subtext">How Data Time-Machine migrates 50,000,000 rows without locking tables or dropping a single customer payment.</text>
 
-  <!-- Left: Dual-write pipeline -->
-  <g transform="translate(40, 80)">
-    <rect width="210" height="250" rx="8" fill="#111827" stroke="#1f2937"/>
-    <rect x="14" y="14" width="90" height="20" rx="4" fill="#3b82f6" opacity="0.15"/>
-    <text x="22" y="28" class="tag" fill="#60a5fa">LIVE TRAFFIC</text>
+  <!-- Step 1: Live User Highway -->
+  <g transform="translate(40, 95)">
+    <rect width="220" height="270" rx="12" fill="#0f172a" stroke="#2563eb" stroke-width="1.5"/>
+    <rect x="14" y="14" width="130" height="20" rx="4" fill="#3b82f6" opacity="0.2"/>
+    <text x="22" y="28" class="badge" fill="#60a5fa">LIVE USERS HIGHWAY</text>
 
-    <!-- Phase 1 -->
-    <rect x="14" y="50" width="182" height="45" rx="6" fill="#1f2937"/>
-    <text x="24" y="70" class="title" font-size="12">1. Dual-Write Shadow</text>
-    <text x="24" y="85" class="mono" fill="#9ca3af">Old &amp; New schema atomic</text>
+    <text x="14" y="65" class="mono" fill="#cbd5e1">10,000 writes / sec</text>
+    <text x="14" y="85" class="subtext">Orders, logins, payments</text>
 
-    <!-- Phase 2 -->
-    <rect x="14" y="105" width="182" height="45" rx="6" fill="#1f2937"/>
-    <text x="24" y="125" class="title" font-size="12">2. Throttled Backfill</text>
-    <text x="24" y="140" class="mono" fill="#9ca3af">Replica lag &lt; 80ms</text>
+    <!-- Visual pipes -->
+    <rect x="14" y="110" width="192" height="60" rx="6" fill="#1e293b"/>
+    <circle cx="34" cy="140" r="10" fill="#3b82f6"/>
+    <text x="54" y="136" class="mono" fill="#f8fafc">Pipe A: Old Database</text>
+    <text x="54" y="152" class="mono" fill="#93c5fd">Active read traffic</text>
 
-    <!-- Phase 3 -->
-    <rect x="14" y="160" width="182" height="45" rx="6" fill="#064e3b" stroke="#059669"/>
-    <text x="24" y="180" class="title" font-size="12" fill="#34d399">3. Merkle Tree Audit</text>
-    <text x="24" y="195" class="mono" fill="#a7f3d0">Zero-lock verification</text>
+    <rect x="14" y="185" width="192" height="60" rx="6" fill="#1e293b" stroke="#059669"/>
+    <circle cx="34" cy="215" r="10" fill="#10b981"/>
+    <text x="54" y="211" class="mono" fill="#f8fafc">Pipe B: Shadow Table</text>
+    <text x="54" y="227" class="mono" fill="#34d399">Dual-write stream</text>
 
-    <!-- Phase 4 -->
-    <rect x="14" y="215" width="182" height="22" rx="4" fill="#1f2937"/>
-    <text x="24" y="230" class="mono" fill="#6b7280">4. Atomic Cutover (1ms)</text>
+    <text x="14" y="260" class="badge" fill="#10b981">ZERO LOCKS ACQUIRED</text>
   </g>
 
-  <!-- Arrow -->
-  <path d="M 250 205 L 300 205" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <!-- Step 2: Background Scanner -->
+  <g transform="translate(290, 95)">
+    <rect width="260" height="270" rx="12" fill="#0f172a" stroke="#334155"/>
+    <rect x="14" y="14" width="140" height="20" rx="4" fill="#f59e0b" opacity="0.2"/>
+    <text x="22" y="28" class="badge" fill="#fbbf24">BACKGROUND SCANNER</text>
 
-  <!-- Right: Merkle Tree Graphic -->
-  <g transform="translate(300, 70)">
-    <rect width="520" height="270" rx="10" fill="#0c1322" stroke="#1e293b"/>
+    <text x="14" y="65" class="mono" fill="#cbd5e1">Copies 500 rows / batch</text>
+    <text x="14" y="85" class="subtext">Auto-throttles if replica lags</text>
 
-    <!-- Root Node -->
-    <g transform="translate(180, 20)">
-      <rect width="160" height="40" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-      <text x="14" y="18" class="tag" fill="#fbbf24">ROOT COMPARISON</text>
-      <text x="14" y="32" class="hash">H(Root): 833baa != 2e3945</text>
-    </g>
+    <!-- Merkle tree visualization -->
+    <rect x="14" y="110" width="232" height="135" rx="8" fill="#1e1814" stroke="#d97706"/>
+    <text x="24" y="135" class="badge" fill="#fbbf24">MERKLE TREE BISECTION</text>
+    <text x="24" y="155" class="mono" fill="#fde68a">Compares SHA-256 hashes</text>
+    <text x="24" y="175" class="mono" fill="#fde68a">Finds row delta in O(log N)</text>
 
-    <!-- Connectors -->
-    <path d="M 230 60 L 120 100" stroke="#334155" stroke-width="1.5"/>
-    <path d="M 290 60 L 400 100" stroke="#f43f5e" stroke-width="2"/>
-
-    <!-- Left Child (Match) -->
-    <g transform="translate(40, 100)">
-      <rect width="150" height="40" rx="6" fill="#13231e" stroke="#10b981"/>
-      <text x="10" y="18" class="tag" fill="#34d399">BUCKET [0..5000]</text>
-      <text x="10" y="32" class="mono" fill="#6ee7b7">OK - Hashes Match</text>
-    </g>
-
-    <!-- Right Child (Divergence) -->
-    <g transform="translate(330, 100)">
-      <rect width="150" height="40" rx="6" fill="#291419" stroke="#ef4444" stroke-width="1.5"/>
-      <text x="10" y="18" class="tag" fill="#f87171">BUCKET [5001..10000]</text>
-      <text x="10" y="32" class="mono" fill="#fca5a5">Divergence Detected</text>
-    </g>
-
-    <!-- Next level connector -->
-    <path d="M 405 140 L 405 175" stroke="#ef4444" stroke-width="2"/>
-
-    <!-- Pinpointed Leaf -->
-    <g transform="translate(290, 175)">
-      <rect width="220" height="70" rx="8" fill="#1e131d" stroke="#f43f5e" stroke-width="1.8"/>
-      <rect x="12" y="10" width="130" height="18" rx="4" fill="#ef4444" opacity="0.2"/>
-      <text x="18" y="23" class="tag" fill="#f87171">ISOLATED ROW IN O(log N)</text>
-      <text x="12" y="44" class="mono" fill="#fecdd3">Primary Key: ID = 4251</text>
-      <text x="12" y="60" class="mono" fill="#fda4af">Target: balance=999999 (Drift!)</text>
-    </g>
+    <line x1="24" y1="190" x2="220" y2="190" stroke="#78350f"/>
+    <text x="24" y="212" class="mono" fill="#34d399">[+] 100% Hash Match</text>
+    <text x="24" y="230" class="mono" fill="#34d399">[+] 0 Lost Payments</text>
   </g>
 
-  <!-- Bottom status -->
-  <rect x="40" y="355" width="780" height="38" rx="6" fill="#0b1120" stroke="#1e293b"/>
-  <circle cx="58" cy="374" r="4" fill="#34d399"/>
-  <text x="74" y="378" class="mono" fill="#cbd5e1">Production Database Status: ZERO TABLE LOCKS // 100% MERKLE CONSISTENCY</text>
+  <!-- Step 3: Instant Cutover -->
+  <g transform="translate(580, 95)">
+    <rect width="240" height="270" rx="12" fill="#061c16" stroke="#059669" stroke-width="2"/>
+    <rect x="14" y="14" width="130" height="20" rx="4" fill="#10b981" opacity="0.2"/>
+    <text x="22" y="28" class="badge" fill="#34d399">1ms ATOMIC SWITCH</text>
+
+    <text x="14" y="68" class="headline" font-size="14" fill="#34d399">Instant Cutover</text>
+    <text x="14" y="88" class="subtext">Users never notice a blip.</text>
+
+    <rect x="14" y="115" width="212" height="70" rx="6" fill="#064e3b"/>
+    <text x="24" y="140" class="badge" fill="#6ee7b7">TRAFFIC FLIPPED</text>
+    <text x="24" y="160" class="mono" fill="#a7f3d0">All reads -&gt; New Schema</text>
+    <text x="24" y="175" class="mono" fill="#a7f3d0">Switch time: 0.001 sec</text>
+
+    <rect x="14" y="195" width="212" height="55" rx="6" fill="#0b1714"/>
+    <text x="24" y="220" class="mono" fill="#6ee7b7">[+] Zero downtime</text>
+    <text x="24" y="238" class="mono" fill="#6ee7b7">[+] Safely retire old schema</text>
+  </g>
+
+  <!-- Bottom strip -->
+  <rect x="40" y="390" width="780" height="34" rx="6" fill="#030712" stroke="#1f2937"/>
+  <circle cx="58" cy="407" r="4" fill="#34d399"/>
+  <text x="74" y="411" class="mono" fill="#94a3b8">Guarantee: Upgrades multi-million row databases while customers keep checking out normally.</text>
 </svg>
