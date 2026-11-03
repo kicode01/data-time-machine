@@ -1,0 +1,12 @@
+{
+  "name": "data-time-machine",
+  "version": "1.0.0",
+  "description": "Zero-downtime database migration and cryptographic Merkle tree parity engine.",
+  "author": {
+    "name": "Kian",
+    "url": "https://github.com/kicode01"
+  },
+  "skills": [
+    "./"
+  ]
+}

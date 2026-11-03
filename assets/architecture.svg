@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0d14"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f8fafc; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; }
+    .tag { font-size: 10px; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    .hash { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 10px; fill: #38bdf8; }
+  </style>
+
+  <rect width="860" height="420" rx="14" fill="url(#bg)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Window controls -->
+  <circle cx="36" cy="36" r="6" fill="#ef4444" opacity="0.8"/>
+  <circle cx="54" cy="36" r="6" fill="#f59e0b" opacity="0.8"/>
+  <circle cx="72" cy="36" r="6" fill="#10b981" opacity="0.8"/>
+  <text x="100" y="41" class="mono" fill="#64748b">data-time-machine // O(log N) Merkle Tree Parity Bisection</text>
+
+  <!-- Left: Dual-write pipeline -->
+  <g transform="translate(40, 80)">
+    <rect width="210" height="250" rx="8" fill="#111827" stroke="#1f2937"/>
+    <rect x="14" y="14" width="90" height="20" rx="4" fill="#3b82f6" opacity="0.15"/>
+    <text x="22" y="28" class="tag" fill="#60a5fa">LIVE TRAFFIC</text>
+
+    <!-- Phase 1 -->
+    <rect x="14" y="50" width="182" height="45" rx="6" fill="#1f2937"/>
+    <text x="24" y="70" class="title" font-size="12">1. Dual-Write Shadow</text>
+    <text x="24" y="85" class="mono" fill="#9ca3af">Old &amp; New schema atomic</text>
+
+    <!-- Phase 2 -->
+    <rect x="14" y="105" width="182" height="45" rx="6" fill="#1f2937"/>
+    <text x="24" y="125" class="title" font-size="12">2. Throttled Backfill</text>
+    <text x="24" y="140" class="mono" fill="#9ca3af">Replica lag &lt; 80ms</text>
+
+    <!-- Phase 3 -->
+    <rect x="14" y="160" width="182" height="45" rx="6" fill="#064e3b" stroke="#059669"/>
+    <text x="24" y="180" class="title" font-size="12" fill="#34d399">3. Merkle Tree Audit</text>
+    <text x="24" y="195" class="mono" fill="#a7f3d0">Zero-lock verification</text>
+
+    <!-- Phase 4 -->
+    <rect x="14" y="215" width="182" height="22" rx="4" fill="#1f2937"/>
+    <text x="24" y="230" class="mono" fill="#6b7280">4. Atomic Cutover (1ms)</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M 250 205 L 300 205" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Right: Merkle Tree Graphic -->
+  <g transform="translate(300, 70)">
+    <rect width="520" height="270" rx="10" fill="#0c1322" stroke="#1e293b"/>
+
+    <!-- Root Node -->
+    <g transform="translate(180, 20)">
+      <rect width="160" height="40" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="14" y="18" class="tag" fill="#fbbf24">ROOT COMPARISON</text>
+      <text x="14" y="32" class="hash">H(Root): 833baa != 2e3945</text>
+    </g>
+
+    <!-- Connectors -->
+    <path d="M 230 60 L 120 100" stroke="#334155" stroke-width="1.5"/>
+    <path d="M 290 60 L 400 100" stroke="#f43f5e" stroke-width="2"/>
+
+    <!-- Left Child (Match) -->
+    <g transform="translate(40, 100)">
+      <rect width="150" height="40" rx="6" fill="#13231e" stroke="#10b981"/>
+      <text x="10" y="18" class="tag" fill="#34d399">BUCKET [0..5000]</text>
+      <text x="10" y="32" class="mono" fill="#6ee7b7">OK - Hashes Match</text>
+    </g>
+
+    <!-- Right Child (Divergence) -->
+    <g transform="translate(330, 100)">
+      <rect width="150" height="40" rx="6" fill="#291419" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="10" y="18" class="tag" fill="#f87171">BUCKET [5001..10000]</text>
+      <text x="10" y="32" class="mono" fill="#fca5a5">Divergence Detected</text>
+    </g>
+
+    <!-- Next level connector -->
+    <path d="M 405 140 L 405 175" stroke="#ef4444" stroke-width="2"/>
+
+    <!-- Pinpointed Leaf -->
+    <g transform="translate(290, 175)">
+      <rect width="220" height="70" rx="8" fill="#1e131d" stroke="#f43f5e" stroke-width="1.8"/>
+      <rect x="12" y="10" width="130" height="18" rx="4" fill="#ef4444" opacity="0.2"/>
+      <text x="18" y="23" class="tag" fill="#f87171">ISOLATED ROW IN O(log N)</text>
+      <text x="12" y="44" class="mono" fill="#fecdd3">Primary Key: ID = 4251</text>
+      <text x="12" y="60" class="mono" fill="#fda4af">Target: balance=999999 (Drift!)</text>
+    </g>
+  </g>
+
+  <!-- Bottom status -->
+  <rect x="40" y="355" width="780" height="38" rx="6" fill="#0b1120" stroke="#1e293b"/>
+  <circle cx="58" cy="374" r="4" fill="#34d399"/>
+  <text x="74" y="378" class="mono" fill="#cbd5e1">Production Database Status: ZERO TABLE LOCKS // 100% MERKLE CONSISTENCY</text>
+</svg>
